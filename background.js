@@ -10,6 +10,16 @@ chrome.webRequest.onCompleted.addListener(
     if (isMediaRequest || isPartialContent) {
       console.log("Media url found:", details.url);
       lastMediaUrl = details.url;
+
+      chrome.storage.local.get({ downloadHistory: [] }, (data) => {
+        let history = data.downloadHistory || [];
+        if (!history.includes(details.url)) {
+          history.unshift(details.url);
+          history = history.slice(0, 10);
+          chrome.storage.local.set({ downloadHistory: history });
+        }
+      })
+
       chrome.storage.local.set({ lastMediaUrl }, () => {
         console.log("Saved url:", lastMediaUrl);
       });
@@ -22,12 +32,13 @@ chrome.webRequest.onCompleted.addListener(
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "getMediaUrl") {
     chrome.storage.local.get("lastMediaUrl", (data) => {
-      if (data.lastMediaUrl) {
-        sendResponse({ success: true, url: data.lastMediaUrl });
-      } else {
-        sendResponse({ success: false });
-      }
+      sendResponse(data.lastMediaUrl ? { success: true, url: data.lastMediaUrl } : { success: false});
+    });
+    return true;
+  } else if (message.action === "getDownloadHistory") {
+    chrome.storage.local.get("downloadHistory", (data) => {
+      sendResponse({ success: true, history: data.downloadHistory || [] });
     });
     return true;
   }
-})
+});
