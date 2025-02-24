@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "CutTheC(r)ap Voice Downloader",
+  "name": "CutTheC(r)ap",
+  "description": "Allows you to download any previewed CapCut TTS voice, free or Pro.",
   "version": "1.0",
   "permissions": ["storage", "tabs", "webRequest"],
   "background": {
