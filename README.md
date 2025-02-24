@@ -4,7 +4,7 @@
 CutTheC(r)ap allows you to download any CapCut TTS voices (Pro-only included) for free by just listening to a sample of it. Simply add some text, pick the voice you want and click the preview button, then click the "Download Sample" button. It's that easy! **No server.py or any other external files needed!**
 ## Features
 
-- Pro-only and free voice download.
+- Pro and free voice download.
 - Ability to download last saved voice if you accidentally refresh the page.
 - 100% free, no paywalls or malicious code.
 ## Installation
