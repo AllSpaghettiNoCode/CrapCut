@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    width: 200px;
+    padding: 10px;
+    background-color: black;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}

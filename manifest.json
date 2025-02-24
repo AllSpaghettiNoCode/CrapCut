@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "CutTheC(r)ap Voice Downloader",
+  "version": "1.0",
+  "permissions": ["storage", "tabs", "webRequest"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/cut16.png",
+      "48": "icons/cut48.png",
+      "128": "icons/cut128.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.capcut.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"]
+}
