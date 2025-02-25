@@ -40,5 +40,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse({ success: true, history: data.downloadHistory || [] });
     });
     return true;
+  } else if (message.action === "clearDownloadHistory") {
+    chrome.storage.local.set({ downloadHistory: [] }, () => {
+      sendResponse({ success: true });
+    });
+    return true;
   }
 });
