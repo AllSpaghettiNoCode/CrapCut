@@ -5,15 +5,23 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.runtime.sendMessage({ action: "getDownloadHistory" }, (response) => {
         const history = response.history || [];
 
+        downloadList.innerHTML = "";
+
         if (history.length === 0) {
             downloadList.innerHTML = "<li>No downloads yet.</li>";
         } else {
-            history.forEach(url => {
+            history.forEach((url, index) => {
                 const listItem = document.createElement("li");
+
+                const numberSpan = document.createElement("span");
+                numberSpan.textContent = `${index + 1}. `;
+                numberSpan.style.fontWeight = "bold";
+
                 const link = document.createElement("a");
                 link.href = url;
                 link.textContent = "Download";
                 link.target = "_blank";
+                listItem.appendChild(numberSpan);
                 listItem.appendChild(link);
                 downloadList.appendChild(listItem);
             });
