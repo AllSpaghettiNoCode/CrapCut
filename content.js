@@ -6,7 +6,7 @@ function addDownloadButton() {
     if (parentElement.querySelector(".capcut-tts-download")) return;
 
     const downloadBtn = document.createElement("button");
-    downloadBtn.innerText = "Download Sample";
+    downloadBtn.innerText = "Download Preview";
     downloadBtn.classList.add("capcut-tts-download");
 
     downloadBtn.style.padding = "5px 10px";
