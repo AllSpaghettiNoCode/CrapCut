@@ -6,19 +6,29 @@ chrome.webRequest.onCompleted.addListener(
     const isMediaRequest = details.responseHeaders.some(header => header.name.toLowerCase() === 'content-type' && header.value.includes('audio/'));
 
     const isPartialContent = details.statusCode === 206;
+    
 
     if (isMediaRequest || isPartialContent) {
+      const newEntry = {
+        url: details.url,
+        timestamp: Date.now(),
+      };
       console.log("Media url found:", details.url);
       lastMediaUrl = details.url;
 
       chrome.storage.local.get({ downloadHistory: [] }, (data) => {
         let history = data.downloadHistory || [];
-        if (!history.includes(details.url)) {
-          history.unshift(details.url);
+
+        const now = Date.now();
+        history = history.filter((entry) => now - entry.timestamp < 12 * 60 * 60 * 1000);
+        
+        if (!history.some((entry) => entry.url === details.url)) {
+          history.unshift(newEntry);
           history = history.slice(0, 10);
-          chrome.storage.local.set({ downloadHistory: history });
         }
-      })
+
+        chrome.storage.local.set({ downloadHistory: history });
+      });
 
       chrome.storage.local.set({ lastMediaUrl }, () => {
         console.log("Saved url:", lastMediaUrl);
@@ -37,7 +47,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   } else if (message.action === "getDownloadHistory") {
     chrome.storage.local.get("downloadHistory", (data) => {
-      sendResponse({ success: true, history: data.downloadHistory || [] });
+      const now = Date.now();
+      let history = data.downloadHistory || [];
+      history = history.filter((entry) => now - entry.timestamp < 12 * 60 * 60 * 1000);
+      chrome.storage.local.set({ downloadHistory: history });
+      sendResponse({ success: true, history });
     });
     return true;
   } else if (message.action === "clearDownloadHistory") {
