@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "CutTheC(r)ap",
+  "name": "CrapCut",
   "description": "Allows you to download any previewed CapCut TTS voice, free or Pro.",
-  "version": "1.0",
+  "version": "1.5",
   "permissions": ["storage", "tabs", "webRequest"],
   "background": {
     "service_worker": "background.js"
