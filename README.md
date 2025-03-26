@@ -1,5 +1,7 @@
 
-# CrapCut
+# CrapCut (sanitized branch)
+
+## This branch of CrapCut is in beta as I am currently sanitizing the code to make it more cleaner. If everything works, it will be pushed to main, but this branch is just as a holding place for now.
 
 CrapCut allows you to download any CapCut TTS voices (Pro included) for free by just listening to a sample of it. Simply add some text, pick the voice you want and click the preview button, then click the "Download Sample" button. It's that easy! **No server.py or any other external files needed!**
 ## Features
