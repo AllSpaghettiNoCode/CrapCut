@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (history.length === 0) {
             downloadList.innerHTML = "<li>No downloads yet.</li>";
         } else {
-            history.forEach((url, index) => {
+            history.forEach((entry, index) => {
                 const listItem = document.createElement("li");
 
                 const numberSpan = document.createElement("span");
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 numberSpan.style.fontWeight = "bold";
 
                 const link = document.createElement("a");
-                link.href = url;
+                link.href = entry.url;
                 link.textContent = "Download";
                 link.target = "_blank";
                 listItem.appendChild(numberSpan);
