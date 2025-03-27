@@ -1,9 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const downloadList = document.getElementById("downloadList");
     const clearHistoryBtn = document.getElementById("clearHistoryBtn");
 
-    chrome.runtime.sendMessage({ action: "getDownloadHistory" }, (response) => {
-        const history = response.history || [];
+    chrome.storage.local.get("downloadHistory", (data) => {
+        const history = data.downloadHistory || [];
 
         downloadList.innerHTML = "";
 
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 link.href = entry.url;
                 link.textContent = "Download";
                 link.target = "_blank";
+                
                 listItem.appendChild(numberSpan);
                 listItem.appendChild(link);
                 downloadList.appendChild(listItem);
