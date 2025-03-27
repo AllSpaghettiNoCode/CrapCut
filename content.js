@@ -1,39 +1,67 @@
 function addDownloadButton() {
-  const audioControls = document.querySelectorAll(".player-play-btn");
+  const cardItems = document.querySelectorAll(".card-item-wrapper.attribute-card-item-new");
 
-  audioControls.forEach((control) => {
-    const parentElement = control.parentElement;
-    if (parentElement.querySelector(".capcut-tts-download")) return;
+  cardItems.forEach((card) => {
+    if (card.dataset.downloadButtonAdded) return;
+
+    card.addEventListener("click", () => {
+      console.log("Card clicked");
+    });
 
     const downloadBtn = document.createElement("button");
     downloadBtn.innerText = "Download Preview";
     downloadBtn.classList.add("capcut-tts-download");
 
-    downloadBtn.style.padding = "5px 10px";
-    downloadBtn.style.cursor = "pointer";
-    downloadBtn.style.backgroundColor = "#4CAF50";
-    downloadBtn.style.color = "#fff";
-    downloadBtn.style.border = "none";
-    downloadBtn.style.borderRadius = "5px";
-    downloadBtn.style.fontSize = "12px";
-    downloadBtn.style.position = "absolute";
-    downloadBtn.style.left = "-150px";
-    downloadBtn.style.top = "50%";
-    downloadBtn.style.transform = "translateY(-50%)";
+    Object.assign(downloadBtn.style, {
+      padding: "5px 10px",
+      cursor: "pointer",
+      backgroundColor: "#4CAF50",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      fontSize: "12px",
+      marginTop: "10px",
+      display: "block",
+      textAlign: "center",
+      width: "100%",
+    });
 
     downloadBtn.onclick = () => {
       chrome.runtime.sendMessage({ action: "getMediaUrl" }, (response) => {
         if (response && response.success) {
-          window.open(response.url, "_blank");
-        } else {
-          alert("No audio found. Please preview the audio first.");
-        }
+            window.open(response.url, "_blank");
+          } else {
+            alert("No audio found. Please click on a voice first.")
+          }
       });
     };
 
-    parentElement.style.position = "relative";
-    parentElement.appendChild(downloadBtn);
+    card.appendChild(downloadBtn);
+    card.dataset.downloadButtonAdded = "true";
+  });
+}
+
+function trackVoiceCardClicks() {
+  document.body.addEventListener("click", (event) => {
+    const voiceCard = event.target.closest(".card-item-wrapper.attribute-card-item-new");
+    if (voiceCard) {
+      console.log("Voice card clicked!");
+
+      fetch("https://sg-gcp-media.evercloud.capcut.com/origin/*", { method: "OPTIONS" })
+        .then((response) => {
+          if (response.ok) {
+            const previewUrl = response.url;
+            chrome.storage.local.set({ lastMediaUrl: previewUrl }, () => {
+              console.log("Stored preview URL:", previewUrl);
+            });
+          } else {
+            console.warn("Failed to fetch");
+          }
+        })
+        .catch((error) => console.error("Error fetching url:", error));
+    }
   });
 }
 
 setInterval(addDownloadButton, 1000);
+trackVoiceCardClicks();
