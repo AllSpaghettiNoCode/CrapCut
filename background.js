@@ -2,13 +2,10 @@ let lastMediaUrl = "";
 
 chrome.webRequest.onCompleted.addListener(
   (details) => {
-
-    const isMediaRequest = details.responseHeaders.some(header => header.name.toLowerCase() === 'content-type' && header.value.includes('audio/'));
-
-    const isPartialContent = details.statusCode === 206;
+    const isPreflightRequest = details.method === "OPTIONS" && details.statusCode === 204 && details.responseHeaders.some((header) => header.name.toLowerCase() === "content-type" && header.value.includes("text/plain"));
     
 
-    if (isMediaRequest || isPartialContent) {
+    if (isPreflightRequest) {
       const newEntry = {
         url: details.url,
         timestamp: Date.now(),
@@ -35,7 +32,7 @@ chrome.webRequest.onCompleted.addListener(
       });
     }
   },
-  { urls: ["https://v16-cc.capcut.com/*"] },
+  { urls: ["*://sg-gcp-media.evercloud.capcut.com/*"] },
   ["responseHeaders"]
 );
 
