@@ -1,8 +1,6 @@
 
 # CrapCut
 ---
-# A fix has been added, however, the steps have now changed. Please look below for updated instructions.
-
 CrapCut allows you to download any CapCut TTS voices (Pro included) for free by just listening to a sample of it. Simply add some text, pick the voice you want (**NEW!** Includes a download preview button for each voice), then click the "Download Preview" button. It's that easy! **No server.py or any other external files needed!**
 ## Features
 
@@ -26,6 +24,10 @@ For Opera (or Opera GX):
 ```
 
 Click on the "Developer Mode" switch, this should give you access to load an unpacked extension. Navigate to the folder where you have the zip installed (should have manifest.json) and select the folder. The extension part of the installation is done.
+
+## Usage
+Once on the web version of capcut, add some text and pick a tts voice like you normally would. Once the voice is loaded into the timeline, click the "Download voice" button. The entire voice will then download to your computer. All for free
+
 ## FAQ
 
 #### Is this against CapCut TOS? Will I get banned?
